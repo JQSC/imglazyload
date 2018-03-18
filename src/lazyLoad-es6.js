@@ -29,19 +29,29 @@ class lazyLoadES6 {
         return (rect.top - dtop) <= (global.innerHeight || global.document.documentElement.clientHeight)
     }
     [_renderImg]() {
-        //类数组具有Symbol.itrater属性,可以用for of进行枚举
         const dtop = this.defaultOptions.lazyAheadTop;
-        for (let el of this.srcList) {
+        this.srcList.forEach((el, n) => {
             //需要判断当前元素是否满足条件
             if (this[_isVisibleRange](el, dtop)) {
                 el.src = el.getAttribute('data-lazyimg');
+                //剔除已显示的图片
+                this.srcList.splice(n, 1)
             }
-        }
+        })
     }
     [_deferredTrigger]() {
-        this.timer && clearTimeout(this.timer);
-        this.timer = setTimeout(() => this[_renderImg](this.srcList)
-            , this.defaultOptions.lazyTime)
+        //当图片列表为空或已全部显示的时候取消监听器
+        if (this.srcList.length) {
+            this.timer && clearTimeout(this.timer);
+            this.timer = setTimeout(() => this[_renderImg](this.srcList)
+                , this.defaultOptions.lazyTime)
+        } else {
+            if (global.addEventListener) {
+                global.removeEventListener('scroll', () => console.log("All the pictures have been loaded"));
+            } else {
+                global.detachEvent('onscroll', () => console.log("All the pictures have been loaded!"));
+            }
+        }
     }
     init(ops) {
         Object.assign(this.defaultOptions, ops || {});
@@ -49,7 +59,8 @@ class lazyLoadES6 {
             throw new Error("lazyLoad requires a window with a document");
         }
         //获取图片路径列表
-        this.srcList = (global.document.getElementById(this.defaultOptions.containerID) || global.document).getElementsByTagName('img');
+        let els = (global.document.getElementById(this.defaultOptions.containerID) || global.document).getElementsByTagName('img');
+        this.srcList = Array.from(els);
         this[_renderImg]();
         //监听滚动条延时触发渲染
         if (global.addEventListener) {
