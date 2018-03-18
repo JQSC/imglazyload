@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .lazy {
+            border: 2px solid rebeccapurple;
+            border-radius: 5px;
+            margin: 50px;
+        }
+
+        .lazy img {
+            width: 736px;
+            height: 500px;
+            margin: 10px;
+        }
+    </style>
+    <script src="./src/lazyLoad-es5.js"></script>
+    <script src="./src/lazyLoad-es6.js"></script>
+</head>
+
+<body>
+    <div id="container" class="lazy">
+        <img src="./images/blank.gif" data-lazyimg="./images/big-1.jpg">
+        <img src="./images/blank.gif" data-lazyimg="./images/big-2.jpg">
+        <img src="./images/blank.gif" data-lazyimg="./images/big-3.jpg">
+        <img src="./images/blank.gif" data-lazyimg="./images/big-4.jpg">
+        <img src="./images/blank.gif" data-lazyimg="./images/big-5.jpg">
+        <img src="./images/blank.gif" data-lazyimg="./images/big-6.jpg">
+        <img src="./images/blank.gif" data-lazyimg="./images/big-7.jpg">
+    </div>
+</body>
+<script>
+
+    window.onload = function () {
+        var el = new lazyLoadES6(); //or lazyLoadES5
+        //每次滚动条触发后延迟100ms执行render函数, 当图片距离可视区200px时提前加载
+        el.init({
+            lazyAheadTop: 100,
+            lazyTime: 100,
+            containerID: 'container'
+        })
+    }
+</script>
+
+</html>
