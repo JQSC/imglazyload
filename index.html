@@ -24,10 +24,7 @@
             margin: 10px;
         }
     </style>
-    <script src="./src/lazyLoad-es5.js"></script>
-    <script src="./src/lazyLoad-es6.js"></script>
 </head>
-
 <body>
     <div id="container" class="lazy">
         <img src="./images/blank.gif" data-lazyimg="./images/big-1.jpg">
@@ -39,10 +36,11 @@
         <img src="./images/blank.gif" data-lazyimg="./images/big-7.jpg">
     </div>
 </body>
+<script src="./src/lazyLoad.js"></script>
 <script>
-
     window.onload = function () {
-        var el = new lazyLoadES6(); //or lazyLoadES5
+        import lazyLoad from "./src/lazyLoad.js";
+        var el = new lazyLoad(); 
         //每次滚动条触发后延迟100ms执行render函数, 当图片距离可视区200px时提前加载
         el.init({
             lazyAheadTop: 100,

@@ -1,3 +1,4 @@
+
 //利用Symbol数据类型的特性，构建私有函数
 const _deferredTrigger = Symbol('_deferredTrigger');
 const _isVisibleRange = Symbol('_isVisibleRange');
@@ -14,7 +15,7 @@ const global = typeof window !== "undefined" ? window : this;
  **/
 //加入修饰器设置默认lazyAheadTop高度
 //@distanceLimit(100)
-class lazyLoadES6 {
+export default class lazyLoad {
     constructor() {
         this.defaultOptions = {
             lazyAheadTop: 0,
@@ -70,12 +71,3 @@ class lazyLoadES6 {
         }
     }
 }
-//配置默认的预加载高度
-function distanceLimit(top = 0) {
-    return function (target) {
-        if (top > 500) return;
-        target.defaultOptions.lazyAheadTop = top;
-    }
-}
-
-//export default lazyLoadES6;
